@@ -5,9 +5,11 @@ describe('GET /health', () => {
     const res = await request(global.baseUrl)
       .get('/health')
       .set('Accept', 'application/json')
-      .expect(200)
-      .expect('Content-Type', 'application/json; charset=utf-8')
 
+    expect(res.statusCode).toEqual(200)
+    expect(res.headers['content-type']).toEqual(
+      'application/json; charset=utf-8'
+    )
     expect(res.body).toEqual({ message: 'success' })
   })
 })
