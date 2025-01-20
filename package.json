@@ -14,7 +14,7 @@
     "components": "test/components"
   },
   "scripts": {
-    "clean": "rm -rf allure-results && rm -rf allure-report",
+    "clean": "rm -rf allure-results && rm -rf allure-report && rm -f FAILED",
     "test": "npm run clean && jest",
     "format": "prettier --write '**/*.{js,md,json,config.js}'",
     "format:check": "prettier --check '**/*.{js,md,json,config.js}'",
