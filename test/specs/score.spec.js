@@ -14,12 +14,8 @@ describe('POST /score', () => {
 
     expect(res.statusCode).toEqual(200)
 
-    expect(
-      res.body.answers.find((a) => a.questionId === 'singleAnswer').score.value
-    ).toBe(8)
-    expect(
-      res.body.answers.find((a) => a.questionId === 'singleAnswer').score.band
-    ).toBe('Strong')
+    expect(res.body.answers[0].score.value).toBe(8)
+    expect(res.body.answers[0].score.band).toBe('Strong')
   })
 
   it('should score a multiScore question', async () => {
@@ -35,12 +31,8 @@ describe('POST /score', () => {
 
     expect(res.statusCode).toEqual(200)
 
-    expect(
-      res.body.answers.find((a) => a.questionId === 'multiAnswer').score.value
-    ).toBe(6)
-    expect(
-      res.body.answers.find((a) => a.questionId === 'multiAnswer').score.band
-    ).toBe('Medium')
+    expect(res.body.answers[0].score.value).toBe(6)
+    expect(res.body.answers[0].score.band).toBe('Medium')
   })
 
   it('should score a set of questions and answers', async () => {
@@ -79,6 +71,7 @@ describe('POST /score', () => {
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(200)
+
     expect(res.headers['content-type']).toEqual(
       'application/json; charset=utf-8'
     )
