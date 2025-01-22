@@ -1,6 +1,6 @@
 # ffc-grants-scoring-accept-tests
 
-This repository contains the acceptance tests for the FFC Grants Scoring service which is located at https://github.com/DEFRA/ffc-grants-scoring. The repository is based on a CDP journey test suite, amended to run Jest tests against the REST API of the service.
+This repository contains the acceptance tests for the FFC Grants Scoring service located at https://github.com/DEFRA/ffc-grants-scoring. The repository is based on a CDP journey test suite, amended to run Jest tests against the REST API of the service.
 
 ## Local Development
 

@@ -10,6 +10,7 @@ describe('GET /health', () => {
     expect(res.headers['content-type']).toEqual(
       'application/json; charset=utf-8'
     )
+    expect(res.headers['cache-control']).toEqual('no-cache')
     expect(res.body).toEqual({ message: 'success' })
   })
 })
