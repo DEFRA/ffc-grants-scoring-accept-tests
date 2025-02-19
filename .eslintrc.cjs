@@ -20,6 +20,7 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'error',
-    'no-console': 'error'
+    'no-console': 'error',
+    'no-useless-escape': 'off'
   }
 }

@@ -13,14 +13,16 @@ describe('POST /score validation', () => {
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body.message).toEqual(
-      '"answers" is required. "invalid" is not allowed'
-    )
+    expect(res.body.message).toEqual('Validation failed: [data]: Expected an object with \"data\", but received something else | [invalid]: \"invalid\" is not allowed')
   })
 
-  it('should return 400 when questions do not match the scoring config', async () => {
+  it('should return 400 when all scoring questions are not supplied', async () => {
     const payload = {
-      answers: [{ questionId: 'X', answers: ['A'] }]
+      data: {
+        main: {
+          singleAnswer: 'A'
+        }
+      }
     }
 
     const res = await request(global.baseUrl)
@@ -30,42 +32,36 @@ describe('POST /score validation', () => {
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(400)
-    expect(res.text).toEqual('Question with id X not found in scoringData.')
+    expect(res.body.message).toEqual("Questions with id(s) multiAnswer not found in user's answers.")
   })
 
   it('should return 400 when answers do not match the scoring config', async () => {
     const payload = {
-      answers: [{ questionId: 'singleAnswer', answers: ['X'] }]
+      data: {
+        main: {
+          singleAnswer: 'X',
+          multiAnswer: ['A']
+        }
+      }
     }
 
     const res = await request(global.baseUrl)
       .post('/scoring/api/v1/example-grant/score')
-      .send(payload)
-      .set('Content-Type', 'application/json')
+      .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(400)
-    expect(res.text).toEqual('Answer "X" not found in question scores.')
-  })
-
-  it('should return 400 when answers are not of type string', async () => {
-    const payload = {
-      answers: [{ questionId: 'singleAnswer', answers: [100] }]
-    }
-
-    const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
-      .send(payload)
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-
-    expect(res.statusCode).toEqual(400)
-    expect(res.body.message).toEqual('"answers[0].answers[0]" must be a string')
+    expect(res.body.message).toEqual('Answer "X" not found in question scores.')
   })
 
   it('should return 400 when multiple answers are given to a singleScore question', async () => {
     const payload = {
-      answers: [{ questionId: 'singleAnswer', answers: ['A', 'B'] }]
+      data: {
+        main: {
+          singleAnswer: ['A', 'B'],
+          multiAnswer: ['A']
+        }
+      }
     }
 
     const res = await request(global.baseUrl)
@@ -75,25 +71,25 @@ describe('POST /score validation', () => {
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(400)
-    expect(res.text).toEqual(
-      'Multiple answers provided for single-answer question: singleAnswer'
-    )
+    expect(res.body.message).toEqual('Multiple answers provided for single-answer question: singleAnswer')
   })
 
   it('should return 400 if no answer is provided to a question', async () => {
     const payload = {
-      answers: [{ questionId: 'singleAnswer', answers: [] }]
+      data: {
+        main: {
+          singleAnswer: null,
+          multiAnswer: ['A']
+        }
+      }
     }
 
     const res = await request(global.baseUrl)
       .post('/scoring/api/v1/example-grant/score')
-      .send(payload)
-      .set('Content-Type', 'application/json')
+      .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
     expect(res.statusCode).toEqual(400)
-    expect(res.body.message).toEqual(
-      '"answers[0].answers" must contain at least 1 items'
-    )
+    expect(res.body.message).toEqual('Validation failed: [data.main.singleAnswer]: \"data.main.singleAnswer\" must be one of [string, number, array]')
   })
 })
