@@ -3,5 +3,5 @@ export default {
   semi: false,
   singleQuote: true,
   trailingComma: 'none',
-  printWidth: 300
+  printWidth: 100
 }
