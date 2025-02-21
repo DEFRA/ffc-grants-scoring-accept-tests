@@ -74,7 +74,7 @@ describe('POST /score validation', () => {
     expect(res.body.message).toEqual('Multiple answers provided for single-answer question: singleAnswer')
   })
 
-  it('should return 400 when no answer is given to a scoring question', async () => {
+  it('should return 400 when no answer is given to a singleScore question', async () => {
     const payload = {
       data: {
         main: {
@@ -93,6 +93,23 @@ describe('POST /score validation', () => {
     expect(res.body.message).toEqual('Validation failed: [data.main.singleAnswer]: \"data.main.singleAnswer\" must be one of [string, number, array]')
   })
 
+  it('should return 400 when no answers are given to a multiScore question', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'A',
+          multiAnswer: []
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.statusCode).toEqual(400)
+  })
 
   it('should return 400 when duplicate answers given to a multiScore question', async () => {
     const payload = {
