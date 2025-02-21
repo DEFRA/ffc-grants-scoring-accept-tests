@@ -74,7 +74,7 @@ describe('POST /score validation', () => {
     expect(res.body.message).toEqual('Multiple answers provided for single-answer question: singleAnswer')
   })
 
-  it('should return 400 if no answer is provided to a scoring question', async () => {
+  it('should return 400 when no answer is given to a scoring question', async () => {
     const payload = {
       data: {
         main: {
@@ -94,7 +94,7 @@ describe('POST /score validation', () => {
   })
 
 
-  it('should return 400 if duplicate answers are provided to a multiScore question', async () => {
+  it('should return 400 when duplicate answers given to a multiScore question', async () => {
     const payload = {
       data: {
         main: {
@@ -112,4 +112,42 @@ describe('POST /score validation', () => {
     expect(res.statusCode).toEqual(400)
     expect(res.body.message).toEqual('Validation failed: [data.main.multiAnswer.1]: \"data.main.multiAnswer[1]\" contains a duplicate value')
   })
+
+  it('should return 400 when invalid grant type given in URL', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'A',
+          multiAnswer: ['A', 'B']
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/invalid-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.statusCode).toEqual(400)
+    expect(JSON.parse(res.text).error).toEqual('Invalid grant type')
+  })
+
+
+  it('should return 400 when invalid grant type given in URL alongside duplicate answers', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'A',
+          multiAnswer: ['A', 'A']
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/invalid-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.statusCode).toEqual(400)
+  })  
 })
