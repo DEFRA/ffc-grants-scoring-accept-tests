@@ -98,4 +98,28 @@ describe('POST /score', () => {
       scoreBand: 'Strong'
     })
   })
+
+  it('should score a single question if allowPartialScoring parameter is true', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'B'
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score?allowPartialScoring=true')
+      .send(payload)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+      expect(res.statusCode).toEqual(200)
+
+      expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.value).toBe(8)
+      expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.band).toBe('Strong')
+      expect(res.body.score).toBe(8)
+      expect(res.body.status).toBe('Ineligible')
+      expect(res.body.scoreBand).toBe('Weak')
+      })
 })
