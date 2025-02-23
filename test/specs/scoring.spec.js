@@ -1,6 +1,6 @@
 import request from 'supertest'
 
-describe('POST /score', () => {
+describe('Scoring', () => {
   it('should score a singleScore question', async () => {
     const payload = {
       data: {
@@ -11,10 +11,12 @@ describe('POST /score', () => {
       }
     }
 
-    const res = await request(global.baseUrl).post('/scoring/api/v1/example-grant/score').send(payload).set('Content-Type', 'application/json').set('Accept', 'application/json')
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(200)
-
+    expect(res.status).toEqual(200)
     expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.value).toBe(8)
     expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.band).toBe('Strong')
   })
@@ -29,10 +31,13 @@ describe('POST /score', () => {
       }
     }
 
-    const res = await request(global.baseUrl).post('/scoring/api/v1/example-grant/score').send(payload).set('Content-Type', 'application/json').set('Accept', 'application/json')
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score')
+      .send(payload)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(200)
-
+    expect(res.status).toEqual(200)
     expect(res.body.answers.find((a) => a.questionId === 'multiAnswer').score.value).toBe(6)
     expect(res.body.answers.find((a) => a.questionId === 'multiAnswer').score.band).toBe('Medium')
   })
@@ -47,10 +52,12 @@ describe('POST /score', () => {
       }
     }
 
-    const res = await request(global.baseUrl).post('/scoring/api/v1/example-grant/score').send(payload).set('Content-Type', 'application/json').set('Accept', 'application/json')
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(200)
-
+    expect(res.status).toEqual(200)
     expect(res.body.score).toBe(16)
     expect(res.body.status).toBe('Eligible')
     expect(res.body.scoreBand).toBe('Strong')
@@ -66,10 +73,12 @@ describe('POST /score', () => {
       }
     }
 
-    const res = await request(global.baseUrl).post('/scoring/api/v1/example-grant/score').send(payload).set('Content-Type', 'application/json').set('Accept', 'application/json')
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(200)
-
+    expect(res.status).toEqual(200)
     expect(res.headers['content-type']).toEqual('application/json; charset=utf-8')
     expect(res.headers['cache-control']).toEqual('no-cache')
     expect(res.body).toEqual({
@@ -114,7 +123,7 @@ describe('POST /score', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-      expect(res.statusCode).toEqual(200)
+      expect(res.status).toEqual(200)
 
       expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.value).toBe(8)
       expect(res.body.answers.find((a) => a.questionId === 'singleAnswer').score.band).toBe('Strong')

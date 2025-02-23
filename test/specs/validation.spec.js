@@ -1,6 +1,6 @@
 import request from 'supertest'
 
-describe('POST /score validation', () => {
+describe('Validation', () => {
   it('should return 400 when input does not conform to expected JSON format', async () => {
     const payload = {
       invalid: 'invalid'
@@ -12,7 +12,7 @@ describe('POST /score validation', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual('Validation failed: [data]: Expected an object with \"data\", but received something else | [invalid]: \"invalid\" is not allowed')
   })
 
@@ -31,7 +31,7 @@ describe('POST /score validation', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual("Questions with id(s) multiAnswer not found in user's answers.")
   })
 
@@ -50,7 +50,7 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual('Answer "X" not found in question scores.')
   })
 
@@ -70,7 +70,7 @@ describe('POST /score validation', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual('Multiple answers provided for single-answer question: singleAnswer')
   })
 
@@ -89,7 +89,7 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual('Validation failed: [data.main.singleAnswer]: \"data.main.singleAnswer\" must be one of [string, number, array]')
   })
 
@@ -108,7 +108,7 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
   })
 
   it('should return 400 when duplicate answers given to a multiScore question', async () => {
@@ -126,7 +126,7 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(res.body.message).toEqual('Validation failed: [data.main.multiAnswer.1]: \"data.main.multiAnswer[1]\" contains a duplicate value')
   })
 
@@ -145,7 +145,7 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
     expect(JSON.parse(res.text).error).toEqual('Invalid grant type')
   })
 
@@ -165,6 +165,6 @@ describe('POST /score validation', () => {
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-    expect(res.statusCode).toEqual(400)
+    expect(res.status).toEqual(400)
   })  
 })
