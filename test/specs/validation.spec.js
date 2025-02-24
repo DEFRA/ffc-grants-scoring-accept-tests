@@ -146,7 +146,7 @@ describe('Validation', () => {
       .set('Accept', 'application/json')
 
     expect(res.status).toEqual(400)
-    expect(JSON.parse(res.text).error).toEqual('Invalid grant type')
+    expect(res.body.message).toEqual('Invalid grant type')
   })
 
 
