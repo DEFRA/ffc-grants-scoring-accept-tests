@@ -130,5 +130,5 @@ describe('Scoring', () => {
       expect(res.body.score).toBe(8)
       expect(res.body.status).toBe('Ineligible')
       expect(res.body.scoreBand).toBe('Weak')
-      })
+  })
 })

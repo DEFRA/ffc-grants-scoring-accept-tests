@@ -166,5 +166,42 @@ describe('Validation', () => {
       .set('Accept', 'application/json')
 
     expect(res.status).toEqual(400)
-  })  
+  })
+
+  it('should return 400 when invalid query string parameter is given', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'A',
+          multiAnswer: ['A', 'A']
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/invalid-grant/score?invalid=true')
+      .send(payload).set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.status).toEqual(400)
+    expect(res.body.message).toEqual('Validation failed: [invalid]: \"invalid\" is not allowed')
+  })
+
+  it('should score not a single question if allowPartialScoring parameter is false', async () => {
+    const payload = {
+      data: {
+        main: {
+          singleAnswer: 'B'
+        }
+      }
+    }
+
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/example-grant/score?allowPartialScoring=false')
+      .send(payload)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+      expect(res.status).toEqual(400)
+  })
 })
