@@ -13,7 +13,7 @@ describe('Observability', () => {
     expect(res.body).toEqual({ message: 'success' })
   })
 
-  if (process.env.ENVIRONMENT) {
+  if (process.env.ENVIRONMENT) { // test only works when hosted in CDP
     it('should return the same trace id in response as given in request', async () => {
       const payload = {
         data: {

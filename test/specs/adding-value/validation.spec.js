@@ -7,7 +7,7 @@ describe('Validation', () => {
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
@@ -19,13 +19,13 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A'
+          futureCustomersRadiosField: 'futureCustomers-A3'
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
@@ -37,14 +37,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'X',
-          multiAnswer: ['A']
+          produceProcessedRadiosField: 'produceProcessed-A50',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
@@ -55,14 +59,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: ['A', 'B'],
-          multiAnswer: ['A']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+          futureCustomersRadiosField: ['futureCustomers-A1', 'futureCustomers-A2'],
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
@@ -74,14 +82,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: null,
-          multiAnswer: ['A']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+          futureCustomersRadiosField: null,
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
@@ -92,14 +104,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A',
-          multiAnswer: []
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: null,
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
@@ -110,14 +126,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A',
-          multiAnswer: ['A', 'A']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A1'],
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/example-grant/score')
+      .post('/scoring/api/v1/adding-value/score')
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
@@ -128,8 +148,12 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A',
-          multiAnswer: ['A', 'B']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A2'],
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
@@ -147,8 +171,12 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A',
-          multiAnswer: ['A', 'A']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A1'],
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
@@ -165,14 +193,18 @@ describe('Validation', () => {
     const payload = {
       data: {
         main: {
-          singleAnswer: 'A',
-          multiAnswer: ['A', 'A']
+          produceProcessedRadiosField: 'produceProcessed-A3',
+          howAddingValueRadiosField: 'howAddingValue-A2',
+          projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+          futureCustomersRadiosField: 'futureCustomers-A1',
+          collaborationRadiosField: 'collaboration-A2',
+          environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
         }
       }
     }
 
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/invalid-grant/score?invalid=true')
+      .post('/scoring/api/v1/adding-value/score?invalid=true')
       .send(payload).set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
