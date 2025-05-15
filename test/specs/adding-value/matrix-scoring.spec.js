@@ -20,5 +20,5 @@ describe('Matrix Scoring', () => {
     expect(res.body.score).toEqual(18)
     expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.value).toBe(18)
     expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.band).toBe('Medium')
-  });
+  })
 })

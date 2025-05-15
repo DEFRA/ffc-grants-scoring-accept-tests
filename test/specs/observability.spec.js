@@ -18,16 +18,19 @@ describe('Observability', () => {
       const payload = {
         data: {
           main: {
-            singleAnswer: 'A',
-            multiAnswer: ['A']
+            produceProcessedRadiosField: 'produceProcessed-A3',
+            howAddingValueRadiosField: 'howAddingValue-A2',
+            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+            futureCustomersRadiosField: 'futureCustomers-A1',
+            collaborationRadiosField: 'collaboration-A2',
+            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
           }
         }
       }
-
       const uuid = uuidv4().replace(/-/g, '').toLowerCase()
 
       const res = await request(global.baseUrl)
-        .post('/scoring/api/v1/example-grant/score')
+        .post('/scoring/api/v1/adding-value/score')
         .send(payload)
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')

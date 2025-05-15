@@ -216,6 +216,6 @@ describe('Scoring', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
 
-      expect(res.status).toEqual(400)
+    expect(res.status).toEqual(400)
   })
 })
