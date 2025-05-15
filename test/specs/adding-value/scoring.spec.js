@@ -60,7 +60,6 @@ describe('Scoring', () => {
     expect(res.status).toEqual(200)
     expect(res.headers['content-type']).toEqual('application/json; charset=utf-8')
     expect(res.headers['cache-control']).toEqual('no-cache')
-    // validate response against schema?
   })
 
   it('should return 400 when input does not conform to expected JSON format', async () => {
