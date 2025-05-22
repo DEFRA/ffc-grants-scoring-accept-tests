@@ -15,23 +15,22 @@ describe('Observability', () => {
 
   if (process.env.ENVIRONMENT) { // test only works when hosted in CDP
     it('should return the same trace id in response as given in request', async () => {
-      const payload = {
-        data: {
-          main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
-          }
-        }
-      }
       const uuid = uuidv4().replace(/-/g, '').toLowerCase()
 
       const res = await request(global.baseUrl)
         .post('/scoring/api/v1/adding-value/score')
-        .send(payload)
+        .send({
+          data: {
+            main: {
+              produceProcessedRadiosField: 'produceProcessed-A3',
+              howAddingValueRadiosField: 'howAddingValue-A2',
+              projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
+              futureCustomersRadiosField: 'futureCustomers-A1',
+              collaborationRadiosField: 'collaboration-A2',
+              environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+            }
+          }
+        })
         .set('Content-Type', 'application/json')
         .set('Accept', 'application/json')
         .set('X-cdp-request-id', uuid)
