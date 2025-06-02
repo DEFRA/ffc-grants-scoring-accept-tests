@@ -7,8 +7,8 @@ describe('Matrix Scoring', () => {
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2'
+            processedProduceType: 'produceProcessed-A5',
+            valueAdditionMethod: 'howAddingValue-A1'
           }
         }
       })
@@ -16,9 +16,27 @@ describe('Matrix Scoring', () => {
       .set('Accept', 'application/json')
 
     expect(res.status).toEqual(200)
-    expect(res.body.score).toEqual(18)
-    expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.value).toBe(18)
-    expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.band).toBe('Medium')
+    expect(res.body.answers.find((a) => a.questionId === 'processedProduceType').score.value).toBe(15)
+    expect(res.body.answers.find((a) => a.questionId === 'processedProduceType').score.band).toBe('Average')
+  })
+
+  it('should return a zero score for the scoreDependency question and the same score band as the dependee', async () => {
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/adding-value/score?allowPartialScoring=true')
+      .send({
+        data: {
+          main: {
+            processedProduceType: 'produceProcessed-A5',
+            valueAdditionMethod: 'howAddingValue-A1'
+          }
+        }
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.status).toEqual(200)
+    expect(res.body.answers.find((a) => a.questionId === 'valueAdditionMethod').score.value).toBe(0)
+    expect(res.body.answers.find((a) => a.questionId === 'valueAdditionMethod').score.band).toBe('Average')
   })
 
   it('should return 400 when matrixScore question is sent without dependency', async () => {
@@ -27,7 +45,7 @@ describe('Matrix Scoring', () => {
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3'
+            processedProduceType: 'produceProcessed-A3'
           }
         }
       })

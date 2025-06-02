@@ -1,18 +1,21 @@
 import request from 'supertest'
 
 describe('Scoring', () => {
-  it('should score a full set of questions and answers', async () => {
+  it('should score a valid full combination of questions and answers', async () => {
     const res = await request(global.baseUrl)
       .post('/scoring/api/v1/adding-value/score')
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+            isProvidingServicesToOtherFarmers: 'true',
+            isBuildingFruitStorage: 'false',
+            processedProduceType: 'produceProcessed-A1',
+            valueAdditionMethod: 'howAddingValue-A1',
+            impactType: ['projectImpact-A1', 'projectImpact-A2'],
+            manualLabourEquivalence: 'manualLabourAmount-A1',
+            futureCustomerTypes: ['futureCustomers-A1', 'futureCustomers-A2'],
+            collaboration: 'false',
+            environmentalImpactTypes: ['environmentalImpact-A1', 'environmentalImpact-A2']
           }
         }
       })
@@ -20,33 +23,32 @@ describe('Scoring', () => {
       .set('Accept', 'application/json')
 
     expect(res.status).toEqual(200)
-    expect(res.body.score).toEqual(48)
-    expect(res.body.status).toEqual('Ineligible')
-    expect(res.body.scoreBand).toEqual('Weak')
-    expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.value).toBe(18)
-    expect(res.body.answers.find((a) => a.questionId === 'produceProcessedRadiosField').score.band).toBe('Medium')
-    expect(res.body.answers.find((a) => a.questionId === 'projectImpactCheckboxesField').score.value).toBe(11)
-    expect(res.body.answers.find((a) => a.questionId === 'projectImpactCheckboxesField').score.band).toBe('Medium')
-    expect(res.body.answers.find((a) => a.questionId === 'futureCustomersRadiosField').score.value).toBe(11)
-    expect(res.body.answers.find((a) => a.questionId === 'futureCustomersRadiosField').score.band).toBe('Strong')
-    expect(res.body.answers.find((a) => a.questionId === 'collaborationRadiosField').score.value).toBe(2)
-    expect(res.body.answers.find((a) => a.questionId === 'collaborationRadiosField').score.band).toBe('Medium')
-    expect(res.body.answers.find((a) => a.questionId === 'environmentalImpactCheckboxesField').score.value).toBe(6)
-    expect(res.body.answers.find((a) => a.questionId === 'environmentalImpactCheckboxesField').score.band).toBe('Weak')
+    expect(res.body.score.value).toEqual(69.95)
+    expect(res.body.score.band).toEqual('Average')
+    expect(res.body.answers.length).toBe(7)
+    expect(res.body.answers.find((a) => a.questionId === 'processedProduceType').score.value).toBe(24)
+    expect(res.body.answers.find((a) => a.questionId === 'processedProduceType').score.band).toBe('Strong')
+    expect(res.body.answers.find((a) => a.questionId === 'valueAdditionMethod').score.value).toBe(0)
+    expect(res.body.answers.find((a) => a.questionId === 'valueAdditionMethod').score.band).toBe('Strong')
+    expect(res.body.answers.find((a) => a.questionId === 'impactType').score.value).toBe(10)
+    expect(res.body.answers.find((a) => a.questionId === 'impactType').score.band).toBe('Average')
+    expect(res.body.answers.find((a) => a.questionId === 'manualLabourEquivalence').score.value).toBe(1.65)
+    expect(res.body.answers.find((a) => a.questionId === 'manualLabourEquivalence').score.band).toBe('Average')
+    expect(res.body.answers.find((a) => a.questionId === 'futureCustomerTypes').score.value).toBe(2)
+    expect(res.body.answers.find((a) => a.questionId === 'futureCustomerTypes').score.band).toBe('Weak')
+    expect(res.body.answers.find((a) => a.questionId === 'collaboration').score.value).toBe(0)
+    expect(res.body.answers.find((a) => a.questionId === 'collaboration').score.band).toBe('Weak')
+    expect(res.body.answers.find((a) => a.questionId === 'environmentalImpactTypes').score.value).toBe(12.3)
+    expect(res.body.answers.find((a) => a.questionId === 'environmentalImpactTypes').score.band).toBe('Strong')
   })
 
   it('should receive expected headers', async () => {
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/adding-value/score')
+      .post('/scoring/api/v1/adding-value/score?allowPartialScoring=true')
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+            isProvidingServicesToOtherFarmers: 'true'
           }
         }
       })
@@ -60,7 +62,7 @@ describe('Scoring', () => {
 
   it('should return 400 when input does not conform to expected JSON format', async () => {
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/adding-value/score')
+      .post('/scoring/api/v1/adding-value/score?allowPartialScoring=true')
       .send({
         invalid: 'invalid'
       })
@@ -76,7 +78,7 @@ describe('Scoring', () => {
       .send({
         data: {
           main: {
-            futureCustomersRadiosField: 'futureCustomers-A3'
+            futureCustomerTypes: 'futureCustomers-A3'
           }
         }
       })
@@ -88,16 +90,11 @@ describe('Scoring', () => {
 
   it('should return 400 when answers do not match the scoring config', async () => {
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/adding-value/score')
+      .post('/scoring/api/v1/adding-value/score?allowPartialScoring=true')
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A50',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+            manualLabourEquivalence: 'invalid'
           }
         }
       })
@@ -109,37 +106,11 @@ describe('Scoring', () => {
 
   it('should return 400 when invalid grant type given in URL', async () => {
     const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/invalid-grant/score')
+      .post('/scoring/api/v1/invalid-grant/score?allowPartialScoring=true')
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A2'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
-          }
-        }
-      })
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-
-    expect(res.status).toEqual(400)
-  })
-
-  it('should return 400 when invalid grant type given in URL alongside duplicate answers', async () => {
-    const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/invalid-grant/score')
-      .send({
-        data: {
-          main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A1'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+            futureCustomerTypes: 'futureCustomers-A3'
           }
         }
       })
@@ -155,28 +126,7 @@ describe('Scoring', () => {
       .send({
         data: {
           main: {
-            produceProcessedRadiosField: 'produceProcessed-A3',
-            howAddingValueRadiosField: 'howAddingValue-A2',
-            projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-            futureCustomersRadiosField: 'futureCustomers-A1',
-            collaborationRadiosField: 'collaboration-A2',
-            environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
-          }
-        }
-      })
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-
-    expect(res.status).toEqual(400)
-  })
-
-  it('should return 400 when lone question is sent and allowPartialScoring parameter is not set', async () => {
-    const res = await request(global.baseUrl)
-      .post('/scoring/api/v1/adding-value/score')
-      .send({
-        data: {
-          main: {
-            futureCustomersRadiosField: 'futureCustomers-A3'
+            futureCustomerTypes: 'futureCustomers-A3'
           }
         }
       })
@@ -192,7 +142,7 @@ describe('Scoring', () => {
       .send({
         data: {
           main: {
-            futureCustomersRadiosField: 'futureCustomers-A3'
+            futureCustomerTypes: 'futureCustomers-A3'
           }
         }
       })
@@ -200,5 +150,32 @@ describe('Scoring', () => {
       .set('Accept', 'application/json')
 
     expect(res.status).toEqual(400)
+  })
+
+  it('should not return an isScoreOnly question in the response', async () => {
+    const res = await request(global.baseUrl)
+      .post('/scoring/api/v1/adding-value/score')
+      .send({
+        data: {
+          main: {
+            isProvidingServicesToOtherFarmers: 'true',
+            isBuildingFruitStorage: 'false',
+            processedProduceType: 'produceProcessed-A1',
+            valueAdditionMethod: 'howAddingValue-A1',
+            impactType: ['projectImpact-A1', 'projectImpact-A2'],
+            manualLabourEquivalence: 'manualLabourAmount-A1',
+            futureCustomerTypes: ['futureCustomers-A1', 'futureCustomers-A2'],
+            collaboration: 'false',
+            environmentalImpactTypes: ['environmentalImpact-A1', 'environmentalImpact-A2']
+          }
+        }
+      })
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+
+    expect(res.status).toEqual(200)
+    expect(res.body.answers.length).toBe(7)
+    expect(res.body.answers.find((a) => a.questionId === 'isProvidingServicesToOtherFarmers')).toBe(undefined)
+    expect(res.body.answers.find((a) => a.questionId === 'isBuildingFruitStorage')).toBe(undefined)
   })
 })

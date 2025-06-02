@@ -5,16 +5,18 @@ import request from 'supertest'
 describe('Schema Validation', () => {
     it('response should validate against own schema', async () => {
         const scoringResponse = await request(global.baseUrl)
-            .post('/scoring/api/v1/adding-value/score')
+            .post('/scoring/api/v1/adding-value/score?allowPartialScoring=true')
             .send({
                 data: {
                     main: {
-                        produceProcessedRadiosField: 'produceProcessed-A1',
-                        howAddingValueRadiosField: 'howAddingValue-A1',
-                        projectImpactCheckboxesField: ['projectImpact-A1', 'projectImpact-A2'],
-                        futureCustomersRadiosField: 'futureCustomers-A1',
-                        collaborationRadiosField: 'collaboration-A1',
-                        environmentalImpactCheckboxesField: ['environmentalImpact-A1', 'environmentalImpact-A2']
+                        isProvidingServicesToOtherFarmers: 'false',
+                        isBuildingFruitStorage: 'true',
+                        valueAdditionMethod: "howAddingValue-A1",
+                        impactType: ["projectImpact-A1", "projectImpact-A2"],
+                        manualLabourEquivalence: "manualLabourAmount-A1",
+                        futureCustomerTypes: ["futureCustomers-A1", "futureCustomers-A2"],
+                        collaboration: "false",
+                        environmentalImpactTypes: ["environmentalImpact-A1", "environmentalImpact-A2"]
                     }
                 }
             })

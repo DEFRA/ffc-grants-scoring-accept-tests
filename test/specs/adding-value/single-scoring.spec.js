@@ -7,7 +7,7 @@ describe('Single Scoring', () => {
             .send({
                 data: {
                     main: {
-                        futureCustomersRadiosField: 'futureCustomers-A3'
+                        manualLabourEquivalence: 'manualLabourAmount-A2'
                     }
                 }
             })
@@ -15,8 +15,8 @@ describe('Single Scoring', () => {
             .set('Accept', 'application/json')
 
         expect(res.status).toEqual(200)
-        expect(res.body.answers.find((a) => a.questionId === 'futureCustomersRadiosField').score.value).toBe(7)
-        expect(res.body.answers.find((a) => a.questionId === 'futureCustomersRadiosField').score.band).toBe('Medium')
+        expect(res.body.answers.find((a) => a.questionId === 'manualLabourEquivalence').score.value).toBe(3.35)
+        expect(res.body.answers.find((a) => a.questionId === 'manualLabourEquivalence').score.band).toBe('Average')
     })
 
     it('should return 400 when multiple answers are given to a singleScore question', async () => {
@@ -25,12 +25,15 @@ describe('Single Scoring', () => {
             .send({
                 data: {
                     main: {
-                        produceProcessedRadiosField: 'produceProcessed-A3',
-                        howAddingValueRadiosField: 'howAddingValue-A2',
-                        projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-                        futureCustomersRadiosField: ['futureCustomers-A1', 'futureCustomers-A2'],
-                        collaborationRadiosField: 'collaboration-A2',
-                        environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+                        isProvidingServicesToOtherFarmers: 'true',
+                        isBuildingFruitStorage: 'false',
+                        processedProduceType: 'produceProcessed-A1',
+                        valueAdditionMethod: 'howAddingValue-A1',
+                        impactType: ['projectImpact-A1', 'projectImpact-A2'],
+                        manualLabourEquivalence: ['manualLabourAmount-A1', 'manualLabourAmount-A2'],
+                        futureCustomerTypes: ['futureCustomers-A1', 'futureCustomers-A2'],
+                        collaboration: 'false',
+                        environmentalImpactTypes: ['environmentalImpact-A1', 'environmentalImpact-A2']
                     }
                 }
             })
@@ -42,16 +45,11 @@ describe('Single Scoring', () => {
 
     it('should return 400 when no answer is given to a singleScore question', async () => {
         const res = await request(global.baseUrl)
-            .post('/scoring/api/v1/adding-value/score')
+            .post('/scoring/api/v1/adding-value/score?allowPartialScoring')
             .send({
                 data: {
                     main: {
-                        produceProcessedRadiosField: 'produceProcessed-A3',
-                        howAddingValueRadiosField: 'howAddingValue-A2',
-                        projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-                        futureCustomersRadiosField: null,
-                        collaborationRadiosField: 'collaboration-A2',
-                        environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+                        manualLabourEquivalence: null
                     }
                 }
             })
