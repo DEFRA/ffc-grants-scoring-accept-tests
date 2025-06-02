@@ -22,12 +22,15 @@ describe('Observability', () => {
         .send({
           data: {
             main: {
-              produceProcessedRadiosField: 'produceProcessed-A3',
-              howAddingValueRadiosField: 'howAddingValue-A2',
-              projectImpactCheckboxesField: ['projectImpact-A2', 'projectImpact-A3'],
-              futureCustomersRadiosField: 'futureCustomers-A1',
-              collaborationRadiosField: 'collaboration-A2',
-              environmentalImpactCheckboxesField: ['environmentalImpact-A6', 'environmentalImpact-A7']
+              isProvidingServicesToOtherFarmers: 'true',
+              isBuildingFruitStorage: 'false',
+              processedProduceType: 'produceProcessed-A1',
+              valueAdditionMethod: 'howAddingValue-A1',
+              impactType: ['projectImpact-A1', 'projectImpact-A2'],
+              manualLabourEquivalence: 'manualLabourAmount-A1',
+              futureCustomerTypes: ['futureCustomers-A1', 'futureCustomers-A2'],
+              collaboration: 'false',
+              environmentalImpactTypes: ['environmentalImpact-A1', 'environmentalImpact-A2']
             }
           }
         })
