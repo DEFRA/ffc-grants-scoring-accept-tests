@@ -15,7 +15,7 @@ describe('Multi Scoring', () => {
             .set('Accept', 'application/json')
 
         expect(res.status).toEqual(200)
-        expect(res.body.answers.find((a) => a.questionId === 'impactType').score.value).toBe(12)
+        expect(res.body.answers.find((a) => a.questionId === 'impactType').score.value).toBe(21)
         expect(res.body.answers.find((a) => a.questionId === 'impactType').score.band).toBe('Strong')
     })
 
